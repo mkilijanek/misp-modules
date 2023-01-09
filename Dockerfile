@@ -1,7 +1,7 @@
 # na czas budowania obrazu - źródło plików:
 FROM debian:bullseye-slim as FilesSource
 
-ARG MISP_TAG=v2.4.167
+ARG MISP_TAG=2.4.167
 
 RUN apt update && apt install wget -y && mkdir -p /opt/docker-misp && cd /opt/ && wget https://github.com/mkilijanek/misp-modules/archive/refs/tags/${MISP_TAG}.tar.gz && tar xvf ${MISP_TAG}.tar.gz -C /opt && cp -r /opt/misp-server-${MISP_TAG}/* /opt/docker-misp/ 
   
