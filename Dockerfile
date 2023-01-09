@@ -1,5 +1,5 @@
 # na czas budowania obrazu - źródło plików:
-FROM debian:bullseye-slim as FilesSource
+FROM ubuntu:20.04 as FilesSource
 
 ARG MISP_TAG=2.4.167
 
