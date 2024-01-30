@@ -1,6 +1,8 @@
 # na czas budowania obrazu - źródło plików:
 FROM debian:bullseye-slim as FilesSource
 
+ENV DEBIAN_FRONTEND noninteractive
+
 ARG MISP_TAG=2.4.177
 
 RUN apt update && apt install wget -y && mkdir -p /opt/docker-misp && cd /opt/ && wget https://github.com/mkilijanek/misp-modules/archive/refs/tags/${MISP_TAG}.tar.gz -cO /opt/${MISP_TAG}.tar.gz && tar xvf ${MISP_TAG}.tar.gz --strip-components=1 -C /opt/docker-misp 
@@ -27,7 +29,7 @@ RUN set -eux; \
     build-essential \
     pkg-config \
     libpoppler-cpp-dev \
-    libfuzzy-dev; \
+    libfuzzy-dev \
     libssl-dev; \
   apt-get autoremove -y; \
   apt-get clean -; \
@@ -37,10 +39,10 @@ RUN set -eux; \
 WORKDIR /srv
 
 RUN set -eux; \
-  mkdir /wheel; \
+  mkdir /wheels; \
   git clone --branch ${MODULES_TAG} --depth 1 https://github.com/MISP/misp-modules.git /srv/misp-modules; \
   cd /srv/misp-modules; \
-  pip3 wheel -r REQUIREMENTS --no-cache-dir -w /wheel/
+  pip3 wheel -r REQUIREMENTS --no-cache-dir -w /wheels/
 
 # Install faup
 RUN set -eux; \
@@ -49,10 +51,10 @@ RUN set -eux; \
   cmake ..; \
   make install; \
   cd /srv/faup/src/lib/bindings/python; \
-  pip3 wheel --no-cache-dir -w /wheel/ .
+  pip3 wheel --no-cache-dir -w /wheels/ .
 
 # Remove extra packages due to incompatible requirements.txt files
-WORKDIR /wheel
+WORKDIR /wheels
 RUN set -eux ; \
   find . -name "chardet*" | grep -v "chardet-4.0.0" | xargs rm -f
 
@@ -74,11 +76,11 @@ RUN set -eux; \
   apt-get clean -y; \
   rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /wheel /wheel
+COPY --from=builder /wheels /wheels
 COPY --from=builder /usr/local/lib/libfaupl* /usr/local/lib/
 
 RUN set -eux; \
-  pip install --no-cache-dir --use-deprecated=legacy-resolver /wheel/*.whl; \
+  pip install --no-cache-dir --use-deprecated=legacy-resolver /wheels/*.whl; \
   rm -rf /wheels; \
   ldconfig
 
