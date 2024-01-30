@@ -5,8 +5,8 @@ ENV DEBIAN_FRONTEND noninteractive
 
 ARG MISP_TAG=2.4.177
 
-RUN apt update && apt install wget -y && mkdir -p /opt/docker-misp && cd /opt/ && wget https://github.com/mkilijanek/misp-modules/archive/refs/tags/${MISP_TAG}.tar.gz -cO /opt/${MISP_TAG}.tar.gz && tar xvf ${MISP_TAG}.tar.gz --strip-components=1 -C /opt/docker-misp 
-#RUN apt update && apt install wget -y && mkdir -p /opt/docker-misp && cd /opt/ && wget https://github.com/mkilijanek/misp-modules/archive/refs/tags/${MISP_TAG}.tar.gz -cO /opt/${MISP_TAG}.tar.gz && tar xvf ${MISP_TAG}.tar.gz -C /opt && cp -r /opt/misp-server-${MISP_TAG}/* /opt/docker-misp/ 
+RUN apt update && apt install wget -y && mkdir -p /opt/docker-misp && cd /opt/ && wget https://github.com/mkilijanek/misp-modules/archive/refs/tags/${MISP_TAG}.tar.gz -cO /opt/${MISP_TAG}.tar.gz && tar xvf ${MISP_TAG}.tar.gz --strip-components=1 -C /opt/docker-misp/modules 
+#RUN apt update && apt install wget -y && mkdir -p /opt/docker-misp && cd /opt/ && wget https://github.com/mkilijanek/misp-modules/archive/refs/tags/${MISP_TAG}.tar.gz -cO /opt/${MISP_TAG}.tar.gz && tar xvf ${MISP_TAG}.tar.gz -C /opt && cp -r /opt/misp-server-${MISP_TAG}/* /opt/docker-misp/modules 
 
 RUN apt-get remove --purge git wget -y && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
