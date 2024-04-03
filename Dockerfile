@@ -15,7 +15,7 @@ FROM python:3.9-slim-bullseye as builder
 
 ENV DEBIAN_FRONTEND noninteractive
 
-ARG MODULES_TAG=v2.4.177
+ARG MODULES_TAG=v2.4.183
 
 RUN set -eux; \
   apt-get update; \
