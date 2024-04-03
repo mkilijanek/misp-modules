@@ -3,7 +3,7 @@ FROM debian:bullseye-slim as FilesSource
 
 ENV DEBIAN_FRONTEND noninteractive
 
-ARG MISP_TAG=2.4.183
+ARG MISP_TAG=2.4.188
 
 RUN apt update && apt install wget -y && mkdir -p /opt/docker-misp/modules && cd /opt/ && wget https://github.com/mkilijanek/misp-modules/archive/refs/tags/${MISP_TAG}.tar.gz -cO /opt/${MISP_TAG}.tar.gz && tar xvf ${MISP_TAG}.tar.gz --strip-components=1 -C /opt/docker-misp/modules 
 #RUN apt update && apt install wget -y && mkdir -p /opt/docker-misp && cd /opt/ && wget https://github.com/mkilijanek/misp-modules/archive/refs/tags/${MISP_TAG}.tar.gz -cO /opt/${MISP_TAG}.tar.gz && tar xvf ${MISP_TAG}.tar.gz -C /opt && cp -r /opt/misp-server-${MISP_TAG}/* /opt/docker-misp/modules 
@@ -15,7 +15,7 @@ FROM python:3.9-slim-bullseye as builder
 
 ENV DEBIAN_FRONTEND noninteractive
 
-ARG MODULES_TAG=v2.4.182
+ARG MODULES_TAG=v2.4.188
 
 RUN set -eux; \
   apt-get update; \
