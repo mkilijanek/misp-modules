@@ -11,7 +11,7 @@ RUN apt update && apt install wget -y && mkdir -p /opt/docker-misp/modules && cd
 RUN apt-get remove --purge git wget -y && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # budowanie obrazu:
-FROM python:3.9-slim-bullseye as builder
+FROM python:3.13.0b1-slim as builder
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -58,7 +58,7 @@ WORKDIR /wheels
 RUN set -eux ; \
   find . -name "chardet*" | grep -v "chardet-4.0.0" | xargs rm -f
 
-FROM python:3.9-slim-bullseye
+FROM python:3.13.0b1-slim
 
 ENV DEBIAN_FRONTEND noninteractive
 
